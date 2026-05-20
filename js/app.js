@@ -128,19 +128,23 @@ function renderHome() {
   var inProgress = isRoutineInProgress();
   var startBtn = document.getElementById("btn-start");
   var resumeBtn = document.getElementById("btn-resume");
+  var resetBtn = document.getElementById("btn-reset");
 
   if (todayCompleted) {
     startBtn.textContent = "晚安";
     startBtn.classList.remove("hidden");
     resumeBtn.classList.add("hidden");
+    resetBtn.classList.remove("hidden");
   } else if (inProgress) {
     startBtn.textContent = "我回家了";
     startBtn.classList.remove("hidden");
     resumeBtn.classList.remove("hidden");
+    resetBtn.classList.add("hidden");
   } else {
     startBtn.textContent = "我回家了";
     startBtn.classList.remove("hidden");
     resumeBtn.classList.add("hidden");
+    resetBtn.classList.add("hidden");
   }
 }
 
@@ -292,6 +296,20 @@ function wireHomeButtons() {
   // Resume routine
   document.getElementById("btn-resume").addEventListener("click", function() {
     showScreen("screen-routine");
+  });
+
+  // Reset tonight
+  document.getElementById("btn-reset").addEventListener("click", function() {
+    if (confirm("重新开始今晚的晚间程序？")) {
+      updateState(function(s) {
+        var today = getTodayISO();
+        s.streaks.completedDates = s.streaks.completedDates.filter(function(d) { return d !== today; });
+        s.routine = { startDate: null, completedDate: null, currentStep: 0, stepRecords: [], tomorrowChecklist: {} };
+        return s;
+      });
+      renderHome();
+      showToast("已重置，再来一遍吧");
+    }
   });
 
   // Settings gear
