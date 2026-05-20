@@ -151,23 +151,23 @@
 }
 
 .input-with-check {
-  position: relative;
+  display: flex;
+  align-items: flex-end;
+  gap: var(--space-sm);
   width: 100%;
 }
 
 .input-with-check .text-input {
-  padding-right: 44px;
+  flex: 1;
 }
 
 .input-check-btn {
-  position: absolute;
-  right: 6px;
-  bottom: 8px;
-  width: 32px;
-  height: 32px;
+  flex-shrink: 0;
+  width: 36px;
+  height: 36px;
   border-radius: 50%;
   border: 1.5px solid var(--color-accent);
-  background: var(--color-accent);
+  background: rgba(202, 175, 140, 0.5);
   color: var(--color-bg);
   font-size: var(--font-size-base);
   display: flex;
@@ -175,13 +175,13 @@
   justify-content: center;
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
-  transition: opacity var(--transition-fast), transform var(--transition-fast);
-  z-index: 2;
+  transition: opacity var(--transition-fast), transform var(--transition-fast), background var(--transition-fast);
+  margin-bottom: 2px;
 }
 
 .input-check-btn:active {
   transform: scale(0.9);
-  opacity: 0.8;
+  background: var(--color-accent);
 }
 
 .home-textarea-sm {
