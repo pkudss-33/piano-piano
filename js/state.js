@@ -14,7 +14,7 @@ const DEFAULT_STEPS = [
   { id: "reply-msgs",      label: "回复消息，和谁聊聊" },
   { id: "supplements",    label: "补剂" },
   { id: "brush-teeth",    label: "刷牙" },
-  { id: "tomorrow-prep",  label: "准备明天穿戴" },
+  { id: "tomorrow-prep",  label: "准备明天早晨" },
   { id: "dim-lights",     label: "调暗灯光" },
   { id: "set-alarm",      label: "设明天闹钟" },
 ];
@@ -35,6 +35,7 @@ function createDefaultState() {
     tomorrowNote: "",
 
     customSteps: null,          // null = use defaults
+    customTomorrowChecklist: null, // null = use DEFAULT_TOMORROW_CHECKLIST
 
     routine: {
       startDate: null,
@@ -139,6 +140,7 @@ function validateState(state) {
   if (typeof state.sounds.volume !== "number") state.sounds.volume = 0.5;
   if (typeof state.sounds.duration !== "number") state.sounds.duration = 30;
   if (!state.routine.tomorrowChecklist) state.routine.tomorrowChecklist = {};
+  if (state.customTomorrowChecklist !== null && !Array.isArray(state.customTomorrowChecklist)) state.customTomorrowChecklist = null;
   return state;
 }
 
@@ -150,8 +152,9 @@ function getActiveSteps() {
 
 function getTomorrowChecklistItems() {
   const state = loadState();
-  // Merge default items with user's tomorrowNote
-  const items = [...DEFAULT_TOMORROW_CHECKLIST];
+  const items = state.customTomorrowChecklist
+    ? JSON.parse(JSON.stringify(state.customTomorrowChecklist))
+    : JSON.parse(JSON.stringify(DEFAULT_TOMORROW_CHECKLIST));
   if (state.tomorrowNote) {
     items.push({ id: "custom-note", label: state.tomorrowNote });
   }

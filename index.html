@@ -66,7 +66,10 @@
         <div class="routine-progress" id="routine-progress-dots"></div>
         <div class="routine-card-wrap">
           <div class="routine-card" id="routine-card">
-            <p class="routine-step-label" id="routine-step-label"></p>
+            <div class="routine-step-header">
+              <p class="routine-step-label" id="routine-step-label"></p>
+              <button class="routine-step-gear hidden" id="routine-step-gear" aria-label="编辑清单">&#x2699;</button>
+            </div>
             <button class="btn-routine-done" id="btn-routine-done">好了</button>
             <div class="step-checklist" id="step-checklist"></div>
             <p class="tomorrow-note-display hidden" id="tomorrow-note-display"></p>
@@ -147,6 +150,11 @@
         <div class="settings-section">
           <label class="settings-section-label">入睡姿势</label>
           <input type="text" id="settings-posture-input" class="text-input" maxlength="20">
+        </div>
+        <div class="settings-section">
+          <label class="settings-section-label">准备明天早晨清单</label>
+          <div class="step-edit-list" id="checklist-edit-list"></div>
+          <button class="add-step-btn" id="btn-add-checklist">+ 添加清单项</button>
         </div>
         <div class="step-edit-list" id="step-edit-list"></div>
         <button class="add-step-btn" id="btn-add-step">+ 添加步骤</button>

@@ -53,13 +53,19 @@ function renderRoutineStep() {
   document.getElementById("routine-step-counter").textContent =
     (stepIdx + 1) + " / " + steps.length;
 
-  // Step 8 checklist (tomorrow prep)
+  // Step checklist (tomorrow prep)
   var checklistEl = document.getElementById("step-checklist");
   var tomorrowNoteEl = document.getElementById("tomorrow-note-display");
+  var gearBtn = document.getElementById("routine-step-gear");
 
   if (stepData.id === "tomorrow-prep") {
     renderTomorrowChecklist();
     checklistEl.classList.add("open");
+    gearBtn.classList.remove("hidden");
+    gearBtn.onclick = function() {
+      window._checklistReturnScreen = "screen-routine";
+      showScreen("screen-settings");
+    };
     if (state.tomorrowNote) {
       tomorrowNoteEl.textContent = "备忘：" + state.tomorrowNote;
       tomorrowNoteEl.classList.remove("hidden");
@@ -69,6 +75,7 @@ function renderRoutineStep() {
   } else {
     checklistEl.classList.remove("open");
     tomorrowNoteEl.classList.add("hidden");
+    gearBtn.classList.add("hidden");
   }
 }
 

@@ -220,11 +220,34 @@
   -webkit-backdrop-filter: blur(10px);
 }
 
+.routine-step-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-md);
+  margin-bottom: var(--space-xl);
+}
+
 .routine-step-label {
   font-size: var(--font-size-2xl);
   line-height: var(--line-height-relaxed);
   color: var(--color-text-primary);
-  margin-bottom: var(--space-xl);
+}
+
+.routine-step-gear {
+  background: transparent;
+  border: none;
+  color: var(--color-text-muted);
+  font-size: var(--font-size-lg);
+  cursor: pointer;
+  padding: var(--space-xs);
+  -webkit-tap-highlight-color: transparent;
+  transition: color var(--transition-fast);
+  flex-shrink: 0;
+}
+
+.routine-step-gear:active {
+  color: var(--color-text-primary);
 }
 
 .btn-routine-done {
