@@ -172,131 +172,88 @@ function restoreDefaults() {
 }
 
 /* ===== Tomorrow checklist editing ===== */
+function getChecklistItemsForEdit() {
+  var state = loadState();
+  if (state.customTomorrowChecklist) {
+    return JSON.parse(JSON.stringify(state.customTomorrowChecklist));
+  }
+  return JSON.parse(JSON.stringify(DEFAULT_TOMORROW_CHECKLIST));
+}
+
+function saveChecklist(items) {
+  updateState(function(s) {
+    s.customTomorrowChecklist = items;
+    return s;
+  });
+}
+
 function renderChecklist() {
-  var items = getTomorrowChecklistItems();
-  // Filter out the custom-note (tomorrowNote) item since it's auto-managed
-  items = items.filter(function(item) { return item.id !== "custom-note"; });
+  var items = getChecklistItemsForEdit();
   var list = document.getElementById("checklist-edit-list");
   if (!list) return;
   list.innerHTML = "";
 
   items.forEach(function(item, i) {
     var div = document.createElement("div");
-    div.className = "step-edit-item";
-    div.draggable = true;
-    div.dataset.index = i;
+    div.className = "checklist-edit-item";
     div.innerHTML =
-      '<span class="drag-handle">≡</span>' +
-      '<span class="step-label">' + (i + 1) + ". " + item.label + "</span>" +
-      '<span class="step-actions">' +
-      '<button class="edit-checklist" data-idx="' + i + '">✎</button>' +
-      '<button class="delete-checklist" data-idx="' + i + '">×</button>' +
-      "</span>";
+      '<span class="checklist-index">' + (i + 1) + '.</span>' +
+      '<input type="text" class="checklist-input text-input" value="' +
+      escapeHtml(item.label) + '" maxlength="20" data-idx="' + i + '">' +
+      '<button class="checklist-delete-btn" data-idx="' + i + '" title="删除">×</button>';
     list.appendChild(div);
   });
 
-  // Wire edit/delete buttons
-  list.querySelectorAll(".edit-checklist").forEach(function(btn) {
-    btn.addEventListener("click", function(e) {
-      e.stopPropagation();
-      editChecklistItem(parseInt(this.dataset.idx));
+  // Wire input changes
+  list.querySelectorAll(".checklist-input").forEach(function(input) {
+    input.addEventListener("input", function() {
+      var idx = parseInt(this.dataset.idx);
+      var val = this.value.trim();
+      if (val) {
+        var items = getChecklistItemsForEdit();
+        items[idx].label = val;
+        saveChecklist(items);
+      }
+    });
+    // Prevent blur from removing empty input before user can fix it
+    input.addEventListener("blur", function() {
+      if (!this.value.trim()) {
+        this.value = getChecklistItemsForEdit()[parseInt(this.dataset.idx)].label;
+      }
     });
   });
-  list.querySelectorAll(".delete-checklist").forEach(function(btn) {
-    btn.addEventListener("click", function(e) {
-      e.stopPropagation();
-      deleteChecklistItem(parseInt(this.dataset.idx));
+
+  // Wire delete buttons
+  list.querySelectorAll(".checklist-delete-btn").forEach(function(btn) {
+    btn.addEventListener("click", function() {
+      var idx = parseInt(this.dataset.idx);
+      var items = getChecklistItemsForEdit();
+      if (items.length <= 1) {
+        showToast("至少保留一项");
+        return;
+      }
+      items.splice(idx, 1);
+      saveChecklist(items);
+      renderChecklist();
     });
   });
-
-  // Drag and drop
-  wireChecklistDragDrop();
-}
-
-function wireChecklistDragDrop() {
-  var items = document.querySelectorAll("#checklist-edit-list .step-edit-item");
-  var list = document.getElementById("checklist-edit-list");
-  if (!list) return;
-
-  items.forEach(function(item) {
-    item.addEventListener("dragstart", function(e) {
-      e.dataTransfer.setData("text/checklist-index", this.dataset.index);
-      this.style.opacity = "0.5";
-    });
-    item.addEventListener("dragend", function() { this.style.opacity = "1"; });
-    item.addEventListener("dragover", function(e) {
-      e.preventDefault();
-      e.dataTransfer.dropEffect = "move";
-      this.style.borderTop = "2px solid var(--color-accent)";
-    });
-    item.addEventListener("dragleave", function() { this.style.borderTop = ""; });
-    item.addEventListener("drop", function(e) {
-      e.preventDefault();
-      this.style.borderTop = "";
-      var fromIdx = parseInt(e.dataTransfer.getData("text/checklist-index"));
-      var toIdx = parseInt(this.dataset.index);
-      if (fromIdx !== toIdx) moveChecklistItem(fromIdx, toIdx);
-    });
-  });
-}
-
-function getCustomChecklist() {
-  var state = loadState();
-  if (state.customTomorrowChecklist) return state.customTomorrowChecklist;
-  return JSON.parse(JSON.stringify(DEFAULT_TOMORROW_CHECKLIST));
-}
-
-function moveChecklistItem(fromIdx, toIdx) {
-  updateState(function(s) {
-    var items = getCustomChecklist();
-    var moved = items.splice(fromIdx, 1)[0];
-    items.splice(toIdx, 0, moved);
-    s.customTomorrowChecklist = items;
-    return s;
-  });
-  renderChecklist();
-}
-
-function editChecklistItem(index) {
-  var items = getCustomChecklist();
-  var currentLabel = items[index].label;
-  var newLabel = prompt("编辑清单项名称：", currentLabel);
-  if (newLabel && newLabel.trim() && newLabel.trim() !== currentLabel) {
-    updateState(function(s) {
-      var list = getCustomChecklist();
-      list[index].label = newLabel.trim();
-      s.customTomorrowChecklist = list;
-      return s;
-    });
-    renderChecklist();
-  }
-}
-
-function deleteChecklistItem(index) {
-  updateState(function(s) {
-    var list = getCustomChecklist();
-    if (list.length <= 1) {
-      showToast("至少保留一项");
-      return s;
-    }
-    list.splice(index, 1);
-    s.customTomorrowChecklist = list;
-    return s;
-  });
-  renderChecklist();
 }
 
 function addChecklistItem() {
-  var label = prompt("新清单项名称：");
-  if (label && label.trim()) {
-    updateState(function(s) {
-      var list = getCustomChecklist();
-      list.push({ id: "cl-" + Date.now(), label: label.trim() });
-      s.customTomorrowChecklist = list;
-      return s;
-    });
-    renderChecklist();
-  }
+  var items = getChecklistItemsForEdit();
+  items.push({ id: "cl-" + Date.now(), label: "" });
+  saveChecklist(items);
+  renderChecklist();
+  // Focus the new empty input
+  var inputs = document.querySelectorAll("#checklist-edit-list .checklist-input");
+  var last = inputs[inputs.length - 1];
+  if (last) { last.focus(); last.value = ""; }
+}
+
+function escapeHtml(str) {
+  var div = document.createElement("div");
+  div.appendChild(document.createTextNode(str));
+  return div.innerHTML;
 }
 
 function wireChecklistButtons() {

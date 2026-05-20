@@ -667,6 +667,46 @@
   -webkit-tap-highlight-color: transparent;
 }
 
+/* ===== Checklist edit items ===== */
+.checklist-edit-item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: var(--space-sm) 0;
+}
+
+.checklist-index {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-muted);
+  flex-shrink: 0;
+  min-width: 1.5em;
+}
+
+.checklist-input {
+  flex: 1;
+  font-size: var(--font-size-sm) !important;
+  padding: var(--space-sm) var(--space-md) !important;
+  border-radius: var(--border-radius-sm) !important;
+  -webkit-user-select: text !important;
+  user-select: text !important;
+}
+
+.checklist-delete-btn {
+  background: transparent;
+  border: none;
+  color: var(--color-text-muted);
+  font-size: var(--font-size-lg);
+  cursor: pointer;
+  padding: var(--space-xs);
+  flex-shrink: 0;
+  -webkit-tap-highlight-color: transparent;
+  transition: color var(--transition-fast);
+}
+
+.checklist-delete-btn:active {
+  color: #b05e5e;
+}
+
 /* ===== Animations ===== */
 @keyframes card-enter {
   from { opacity: 0; transform: translateX(30px); }
