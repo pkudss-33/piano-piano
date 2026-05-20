@@ -166,11 +166,10 @@ function updatePrepLock() {
   }
 }
 
-/* ===== Prep char count + auto-save wiring (called each time edit mode activates) ===== */
+/* ===== Prep char count + auto-save (state only, no display switch) ===== */
 var _prepSaveTimer = null;
 
-function autoSavePrepInputs() {
-  if (_isComposing) return;
+function savePrepInputsSilent() {
   var prepInput = document.getElementById("prep-input");
   var noteInput = document.getElementById("tomorrow-note-input");
   if (!prepInput || !noteInput) return;
@@ -186,8 +185,17 @@ function autoSavePrepInputs() {
     s.tomorrowNote = noteText;
     return s;
   });
+}
 
-  // If prep has text, switch to display mode
+function commitPrepInputs() {
+  savePrepInputsSilent();
+  var prepInput = document.getElementById("prep-input");
+  var noteInput = document.getElementById("tomorrow-note-input");
+  if (!prepInput || !noteInput) return;
+
+  var prepText = prepInput.value.trim();
+  var noteText = noteInput.value.trim();
+
   if (prepText) {
     var displayDiv = document.getElementById("home-prep-display");
     var editDiv = document.getElementById("home-prep");
@@ -204,50 +212,44 @@ function autoSavePrepInputs() {
   }
 }
 
-/* Track IME composition state so we don't auto-save during composition */
-var _isComposing = false;
-
 function wirePrepCharCounts() {
   var prepInput = document.getElementById("prep-input");
   var noteInput = document.getElementById("tomorrow-note-input");
   var prepCount = document.getElementById("prep-char-count");
   var noteCount = document.getElementById("note-char-count");
+  var prepCheck = document.getElementById("prep-check-btn");
+  var noteCheck = document.getElementById("note-check-btn");
   if (!prepInput || !noteInput) return;
 
   if (!prepInput._wired) {
-    prepInput.addEventListener("compositionstart", function() { _isComposing = true; });
-    prepInput.addEventListener("compositionend", function() {
-      _isComposing = false;
-      // Trigger save only after IME composition is fully committed
-      clearTimeout(_prepSaveTimer);
-      _prepSaveTimer = setTimeout(autoSavePrepInputs, 800);
-    });
     prepInput.addEventListener("input", function() {
       var len = this.value.length;
       prepCount.textContent = len + "/100";
       if (len > 100) { this.value = this.value.slice(0, 100); prepCount.textContent = "100/100"; }
-      if (_isComposing) return;
       clearTimeout(_prepSaveTimer);
-      _prepSaveTimer = setTimeout(autoSavePrepInputs, 800);
+      _prepSaveTimer = setTimeout(savePrepInputsSilent, 600);
     });
+    prepCheck.onclick = function(e) {
+      e.preventDefault();
+      clearTimeout(_prepSaveTimer);
+      commitPrepInputs();
+    };
     prepInput._wired = true;
   }
 
   if (!noteInput._wired) {
-    noteInput.addEventListener("compositionstart", function() { _isComposing = true; });
-    noteInput.addEventListener("compositionend", function() {
-      _isComposing = false;
-      clearTimeout(_prepSaveTimer);
-      _prepSaveTimer = setTimeout(autoSavePrepInputs, 800);
-    });
     noteInput.addEventListener("input", function() {
       var len = this.value.length;
       noteCount.textContent = len + "/50";
       if (len > 50) { this.value = this.value.slice(0, 50); noteCount.textContent = "50/50"; }
-      if (_isComposing) return;
       clearTimeout(_prepSaveTimer);
-      _prepSaveTimer = setTimeout(autoSavePrepInputs, 800);
+      _prepSaveTimer = setTimeout(savePrepInputsSilent, 600);
     });
+    noteCheck.onclick = function(e) {
+      e.preventDefault();
+      clearTimeout(_prepSaveTimer);
+      commitPrepInputs();
+    };
     noteInput._wired = true;
   }
 
@@ -286,9 +288,9 @@ function wireHomeButtons() {
 
     if (state.streaks.completedDates.includes(today)) return;
 
-    // Final save before navigating (auto-save may not have fired yet)
+    // Final save and commit before navigating
     clearTimeout(_prepSaveTimer);
-    autoSavePrepInputs();
+    commitPrepInputs();
 
     showScreen("screen-routine");
   });

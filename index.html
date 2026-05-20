@@ -41,13 +41,19 @@
         <!-- Inline prep: edit mode (textareas) -->
         <div class="home-prep" id="home-prep">
           <div class="home-prep-field">
-            <textarea id="prep-input" class="text-input home-textarea"
-                      placeholder="今晚我期待…" rows="2" maxlength="100"></textarea>
+            <div class="input-with-check">
+              <textarea id="prep-input" class="text-input home-textarea"
+                        placeholder="今晚我期待…" rows="2" maxlength="100"></textarea>
+              <button class="input-check-btn" id="prep-check-btn">✓</button>
+            </div>
             <span class="char-count" id="prep-char-count">0/100</span>
           </div>
           <div class="home-prep-field home-prep-note">
-            <textarea id="tomorrow-note-input" class="text-input home-textarea home-textarea-sm"
-                      placeholder="明天别忘了带…" rows="2" maxlength="50"></textarea>
+            <div class="input-with-check">
+              <textarea id="tomorrow-note-input" class="text-input home-textarea home-textarea-sm"
+                        placeholder="明天别忘了带…" rows="2" maxlength="50"></textarea>
+              <button class="input-check-btn" id="note-check-btn">✓</button>
+            </div>
             <span class="char-count" id="note-char-count">0/50</span>
           </div>
         </div>

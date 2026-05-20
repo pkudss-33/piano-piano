@@ -150,6 +150,40 @@
   user-select: text;
 }
 
+.input-with-check {
+  position: relative;
+  width: 100%;
+}
+
+.input-with-check .text-input {
+  padding-right: 44px;
+}
+
+.input-check-btn {
+  position: absolute;
+  right: 6px;
+  bottom: 8px;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 1.5px solid var(--color-accent);
+  background: var(--color-accent);
+  color: var(--color-bg);
+  font-size: var(--font-size-base);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transition: opacity var(--transition-fast), transform var(--transition-fast);
+  z-index: 2;
+}
+
+.input-check-btn:active {
+  transform: scale(0.9);
+  opacity: 0.8;
+}
+
 .home-textarea-sm {
   font-size: var(--font-size-xs);
   padding: var(--space-sm) var(--space-md);
