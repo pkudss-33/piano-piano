@@ -116,9 +116,6 @@ function renderHome() {
     prepInput.value = state.prepText || "";
     noteInput.value = state.tomorrowNote || "";
 
-    // 10pm lock
-    updatePrepLock();
-
     // Wire char counts
     wirePrepCharCounts();
   }
@@ -145,24 +142,6 @@ function renderHome() {
     startBtn.classList.remove("hidden");
     resumeBtn.classList.add("hidden");
     resetBtn.classList.add("hidden");
-  }
-}
-
-function updatePrepLock() {
-  var prepInput = document.getElementById("prep-input");
-  var noteInput = document.getElementById("tomorrow-note-input");
-  if (!prepInput || !noteInput) return;
-  var locked = isAfter10PM();
-
-  prepInput.disabled = locked;
-  noteInput.disabled = locked;
-
-  if (locked) {
-    prepInput.style.opacity = "0.4";
-    noteInput.style.opacity = "0.4";
-  } else {
-    prepInput.style.opacity = "";
-    noteInput.style.opacity = "";
   }
 }
 
@@ -335,7 +314,6 @@ function wireHomeButtons() {
     var state = loadState();
     document.getElementById("prep-input").value = state.prepText || "";
     document.getElementById("tomorrow-note-input").value = state.tomorrowNote || "";
-    updatePrepLock();
     wirePrepCharCounts();
 
     // Focus the first input
