@@ -28,12 +28,13 @@ function showScreen(screenId, direction) {
   // Fade in next
   next.classList.add("active");
 
-  // Toggle settings gear
+  // Toggle top-right icon buttons
   var gear = document.getElementById("settings-gear");
-  if (gear) {
-    var hideOn = ["screen-settings", "screen-complete"];
-    gear.style.display = hideOn.includes(screenId) ? "none" : "flex";
-  }
+  var bedtimeBtn = document.getElementById("bedtime-history-btn");
+  var hideIconsOn = ["screen-settings", "screen-complete", "screen-bedtime-history"];
+  var show = !hideIconsOn.includes(screenId);
+  if (gear) gear.style.display = show ? "flex" : "none";
+  if (bedtimeBtn) bedtimeBtn.style.display = show ? "flex" : "none";
 
   // Night overlay for sounds screen
   var overlay = document.getElementById("night-overlay");

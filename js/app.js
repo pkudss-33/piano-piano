@@ -319,6 +319,11 @@ function wireHomeButtons() {
     showScreen("screen-settings");
   });
 
+  // Bedtime history
+  document.getElementById("bedtime-history-btn").addEventListener("click", function() {
+    showScreen("screen-bedtime-history");
+  });
+
   // Prep display: click edit icon → switch to edit mode
   document.getElementById("prep-edit-icon").addEventListener("click", function(e) {
     e.stopPropagation();
@@ -342,6 +347,39 @@ function wireHomeButtons() {
     document.getElementById("prep-edit-icon").click();
   });
 }
+
+/* ===== Bedtime history screen ===== */
+registerInit("screen-bedtime-history", function() {
+  var state = loadState();
+  var list = document.getElementById("bedtime-list");
+  var times = state.bedTimes || [];
+  list.innerHTML = "";
+
+  if (times.length === 0) {
+    list.innerHTML = '<p class="bedtime-empty">还没有入睡记录</p>';
+  } else {
+    var reversed = times.slice().reverse();
+    reversed.forEach(function(entry) {
+      var div = document.createElement("div");
+      div.className = "bedtime-item";
+      var parts = entry.date.split("-");
+      var displayDate = parts[0] + "年" + parseInt(parts[1]) + "月" + parseInt(parts[2]) + "日";
+      div.innerHTML =
+        '<span class="bedtime-date">' + displayDate + '</span>' +
+        '<span class="bedtime-time">' + (entry.time || "") + '</span>';
+      list.appendChild(div);
+    });
+  }
+
+  // Close button
+  var closeBtn = document.getElementById("btn-bedtime-close");
+  if (closeBtn && !closeBtn._wired) {
+    closeBtn._wired = true;
+    closeBtn.addEventListener("click", function() {
+      showScreen("screen-home", "backward");
+    });
+  }
+});
 
 /* ===== Toast ===== */
 function showToast(msg, duration) {

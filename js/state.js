@@ -46,6 +46,7 @@ function createDefaultState() {
     },
 
     worryDrops: [],             // [{text, date}]
+    bedTimes: [],               // [{date, time}]
 
     sleepPosture: "戴眼罩",
 
@@ -142,6 +143,7 @@ function validateState(state) {
   if (!state.streaks) state.streaks = defaults.streaks;
   if (!state.sounds) state.sounds = defaults.sounds;
   if (!Array.isArray(state.worryDrops)) state.worryDrops = [];
+  if (!Array.isArray(state.bedTimes)) state.bedTimes = [];
   if (typeof state.prepText !== "string") state.prepText = "";
   if (typeof state.prepDate !== "string") state.prepDate = null;
   if (typeof state.tomorrowNote !== "string") state.tomorrowNote = "";

@@ -176,11 +176,11 @@ body {
   transform: translateX(-50%) translateY(0);
 }
 
-/* ===== Settings gear icon ===== */
+/* ===== Top-right icon buttons ===== */
+.top-icon-btn,
 .settings-gear {
   position: fixed;
   top: calc(var(--space-lg) + env(safe-area-inset-top, 0px));
-  right: var(--space-lg);
   width: 36px;
   height: 36px;
   display: flex;
@@ -196,6 +196,11 @@ body {
   transition: color var(--transition-fast);
 }
 
+.settings-gear {
+  right: var(--space-lg);
+}
+
+.top-icon-btn:active,
 .settings-gear:active {
   color: var(--color-text-primary);
 }

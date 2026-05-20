@@ -14,8 +14,12 @@ registerInit("screen-posture", function() {
     showScreen("screen-settings");
   };
 
-  // Go to bed
+  // Go to bed — record bedtime
   document.getElementById("btn-go-to-bed").onclick = function() {
+    updateState(function(s) {
+      s.bedTimes.push({ date: getTodayISO(), time: getTimeNow() });
+      return s;
+    });
     showScreen("screen-complete", "forward");
   };
 });

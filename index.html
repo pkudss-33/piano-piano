@@ -15,7 +15,8 @@
 <body>
   <div id="app">
 
-    <!-- Settings gear -->
+    <!-- Top-right icons -->
+    <button id="bedtime-history-btn" class="top-icon-btn" aria-label="入睡记录" style="right:56px;">&#x1F552;</button>
     <button id="settings-gear" class="settings-gear" aria-label="设置">&#x2699;</button>
 
     <!-- ====== SCREEN: HOME ====== -->
@@ -143,6 +144,17 @@
           <button class="btn-secondary" id="btn-share">分享给朋友</button>
           <button class="btn-ghost" id="btn-goodnight">晚安</button>
         </div>
+      </div>
+    </div>
+
+    <!-- ====== SCREEN: BEDTIME HISTORY ====== -->
+    <div id="screen-bedtime-history" class="screen">
+      <div class="screen-content">
+        <div class="settings-header">
+          <span class="settings-title">入睡时间</span>
+          <button class="settings-close" id="btn-bedtime-close">&times;</button>
+        </div>
+        <div class="bedtime-list" id="bedtime-list"></div>
       </div>
     </div>
 
