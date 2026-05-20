@@ -2,7 +2,7 @@
   "name": "Piano Piano",
   "short_name": "Piano Piano",
   "description": "慢慢来，放松下来",
-  "start_url": "/",
+  "start_url": "/piano-piano/",
   "display": "standalone",
   "orientation": "portrait",
   "background_color": "#1c1814",
