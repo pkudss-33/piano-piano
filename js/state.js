@@ -128,6 +128,15 @@ function updateState(fn) {
 
 function validateState(state) {
   const defaults = createDefaultState();
+
+  // Migrate old customSteps label
+  if (Array.isArray(state.customSteps)) {
+    state.customSteps = state.customSteps.map(function(s) {
+      if (s.label === "准备明天穿戴") s.label = "准备明天早晨";
+      return s;
+    });
+  }
+
   // Ensure nested objects exist
   if (!state.routine) state.routine = defaults.routine;
   if (!state.streaks) state.streaks = defaults.streaks;

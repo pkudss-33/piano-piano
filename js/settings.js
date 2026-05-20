@@ -162,9 +162,11 @@ function restoreDefaults() {
   if (confirm("恢复为默认的 10 个步骤？")) {
     updateState(function(s) {
       s.customSteps = null;
+      s.customTomorrowChecklist = null;
       return s;
     });
     renderStepList();
+    renderChecklist();
     showToast("已恢复默认步骤");
   }
 }
