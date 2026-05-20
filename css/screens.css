@@ -146,8 +146,9 @@
   line-height: var(--line-height-relaxed);
   border-radius: var(--border-radius-md);
   transition: border-color var(--transition-fast), opacity var(--transition-fast);
-  -webkit-user-select: text;
-  user-select: text;
+  -webkit-user-select: text !important;
+  user-select: text !important;
+  pointer-events: auto !important;
 }
 
 .input-with-check {
