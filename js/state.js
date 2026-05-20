@@ -23,7 +23,6 @@ const DEFAULT_STEPS = [
 const DEFAULT_TOMORROW_CHECKLIST = [
   { id: "outfit",   label: "选明天的衣服" },
   { id: "pack-bag", label: "收拾包包" },
-  { id: "keys",     label: "放好钥匙和钱包" },
   { id: "charge",   label: "给设备充电" },
 ];
 
