@@ -1,0 +1,84 @@
+@import url('https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;1,400&family=Noto+Serif+SC:wght@300;400;500&display=swap');
+
+:root {
+  /* ===== Time-of-day color palettes ===== */
+  --sky-morning-start: #d4dfe6;
+  --sky-morning-end:   #b0bfc8;
+
+  --sky-afternoon-start: #e0d5c0;
+  --sky-afternoon-end:   #cfb895;
+
+  --sky-evening-start:  #3a3350;
+  --sky-evening-end:    #1a1817;
+
+  --bg-gradient-start: var(--sky-afternoon-start);
+  --bg-gradient-end:   var(--sky-afternoon-end);
+
+  /* ===== Warm, high-contrast palette ===== */
+  --color-bg:           #1a1817;
+  --color-bg-card:      rgba(36, 33, 31, 0.95);
+  --color-bg-input:     rgba(46, 42, 39, 0.88);
+  --color-bg-overlay:   rgba(26, 24, 23, 0.92);
+
+  --color-text-primary:  #ede6dc;
+  --color-text-secondary:#c2b9ab;
+  --color-text-muted:    #928b80;
+
+  --color-accent:        #caaf8c;
+  --color-accent-hover:  #d9bf9e;
+  --color-accent-dim:    rgba(202, 175, 140, 0.14);
+
+  --color-success:       #9bb89b;
+  --color-success-bg:    rgba(155, 184, 155, 0.12);
+  --color-skip:          #6b5f53;
+
+  --color-border:        rgba(120, 110, 100, 0.32);
+
+  /* ===== Typography ===== */
+  --font-serif:  "Lora", "Noto Serif SC", "Georgia", "Songti SC", serif;
+  --font-sans:   -apple-system, "Helvetica Neue", "PingFang SC", sans-serif;
+
+  --font-size-xs:    0.75rem;
+  --font-size-sm:    0.875rem;
+  --font-size-base:  1rem;
+  --font-size-lg:    1.2rem;
+  --font-size-xl:    1.4rem;
+  --font-size-2xl:   1.8rem;
+  --font-size-3xl:   2.2rem;
+
+  --font-weight-light: 300;
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+
+  --line-height-tight:   1.25;
+  --line-height-normal:  1.5;
+  --line-height-relaxed: 1.75;
+
+  /* ===== Spacing ===== */
+  --space-xs:  4px;
+  --space-sm:  8px;
+  --space-md:  16px;
+  --space-lg:  24px;
+  --space-xl:  32px;
+  --space-2xl: 48px;
+  --space-3xl: 64px;
+
+  /* ===== Layout ===== */
+  --max-width-content: 400px;
+  --border-radius-sm:  8px;
+  --border-radius-md:  28px;
+  --border-radius-lg:  36px;
+  --border-radius-full: 50%;
+
+  /* ===== Transitions ===== */
+  --transition-fast:   200ms ease;
+  --transition-normal: 400ms ease;
+  --transition-slow:   600ms ease;
+  --transition-screen: 300ms ease;
+
+  /* ===== Z-index ===== */
+  --z-screen:      10;
+  --z-screen-top:  20;
+  --z-toast:       100;
+  --z-settings:    50;
+}

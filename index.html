@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no">
+  <meta name="theme-color" content="#1c1814">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <link rel="manifest" href="manifest.json">
+  <title>Piano Piano</title>
+  <link rel="stylesheet" href="css/variables.css">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/screens.css">
+</head>
+<body>
+  <div id="app">
+
+    <!-- Settings gear -->
+    <button id="settings-gear" class="settings-gear" aria-label="设置">&#x2699;</button>
+
+    <!-- ====== SCREEN: HOME ====== -->
+    <div id="screen-home" class="screen active">
+      <div class="screen-content">
+        <div class="home-brand">Piano Piano</div>
+        <div class="home-header">
+          <span class="home-greeting" id="home-greeting">晚上好</span>
+          <span class="home-date" id="home-date">Monday, May 18</span>
+        </div>
+
+        <div class="home-streak" id="home-streak"></div>
+
+        <!-- Inline prep: display mode (after text saved) -->
+        <div class="home-prep-display hidden" id="home-prep-display">
+          <span class="prep-display-line" id="prep-display-line">
+            <span id="prep-display-text"></span>
+            <span class="prep-edit-icon" id="prep-edit-icon">&#x2710;</span>
+          </span>
+          <span class="prep-display-note" id="prep-display-note"></span>
+        </div>
+
+        <!-- Inline prep: edit mode (textareas) -->
+        <div class="home-prep" id="home-prep">
+          <div class="home-prep-field">
+            <textarea id="prep-input" class="text-input home-textarea"
+                      placeholder="今晚我期待…" rows="2" maxlength="100"></textarea>
+            <span class="char-count" id="prep-char-count">0/100</span>
+          </div>
+          <div class="home-prep-field home-prep-note">
+            <textarea id="tomorrow-note-input" class="text-input home-textarea home-textarea-sm"
+                      placeholder="明天别忘了带…" rows="2" maxlength="50"></textarea>
+            <span class="char-count" id="note-char-count">0/50</span>
+          </div>
+        </div>
+
+        <div class="home-actions">
+          <button id="btn-start" class="btn-primary">我回家了</button>
+          <button id="btn-resume" class="btn-secondary hidden">继续收拾</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ====== SCREEN: ROUTINE ====== -->
+    <div id="screen-routine" class="screen">
+      <div class="screen-content">
+        <div class="routine-progress" id="routine-progress-dots"></div>
+        <div class="routine-card-wrap">
+          <div class="routine-card" id="routine-card">
+            <p class="routine-step-label" id="routine-step-label"></p>
+            <button class="btn-routine-done" id="btn-routine-done">好了</button>
+            <div class="step-checklist" id="step-checklist"></div>
+            <p class="tomorrow-note-display hidden" id="tomorrow-note-display"></p>
+          </div>
+        </div>
+        <div class="routine-skip">
+          <button class="btn-ghost" id="btn-routine-skip">今天不做这个了</button>
+        </div>
+        <p class="routine-step-counter" id="routine-step-counter"></p>
+      </div>
+    </div>
+
+    <!-- ====== SCREEN: ROUTINE SUMMARY ====== -->
+    <div id="screen-routine-summary" class="screen">
+      <div class="screen-content">
+        <p class="prompt-text">今晚，你做了这些</p>
+        <div class="routine-summary" id="routine-summary-list"></div>
+        <button class="btn-primary" id="btn-summary-next">继续</button>
+      </div>
+    </div>
+
+    <!-- ====== SCREEN: WORRY DROP ====== -->
+    <div id="screen-worry-drop" class="screen">
+      <div class="screen-content">
+        <div class="worry-input-wrap">
+          <p class="prompt-text">装不下的心事，先丢一下</p>
+          <textarea id="worry-input" class="text-input" rows="3"
+                    placeholder="写下来，就让它留在这里..."></textarea>
+          <button class="btn-primary" id="btn-drop-worry" disabled>丢进去</button>
+        </div>
+        <div class="worry-history-prompt" id="worry-history-prompt">
+          <button class="btn-ghost" id="btn-view-worries">看看之前丢下的</button>
+        </div>
+        <div class="worry-history hidden" id="worry-history"></div>
+        <button class="btn-ghost" id="btn-worry-skip">先不丢，继续</button>
+      </div>
+    </div>
+
+    <!-- ====== SCREEN: SLEEP POSTURE ====== -->
+    <div id="screen-posture" class="screen">
+      <div class="screen-content">
+        <p class="prompt-text">入睡姿势</p>
+        <div class="posture-card">
+          <span class="posture-text" id="posture-text">戴眼罩</span>
+          <button class="posture-gear-btn" id="btn-posture-settings" aria-label="修改姿势">&#x2699;</button>
+        </div>
+        <p class="posture-hint">放下手机，屏幕朝下，安心入眠</p>
+        <div class="posture-nav">
+          <button class="btn-primary" id="btn-go-to-bed">睡吧</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ====== SCREEN: COMPLETE ====== -->
+    <div id="screen-complete" class="screen">
+      <div class="screen-content">
+        <div class="complete-graphic">
+          <span class="complete-date-month" id="complete-date-month"></span>
+          <span class="complete-date-day" id="complete-date-day"></span>
+        </div>
+        <h1 class="complete-title">Good night</h1>
+        <p class="complete-streak" id="complete-streak"></p>
+        <p class="complete-piano" id="complete-piano">Piano Piano</p>
+        <div class="complete-actions">
+          <button class="btn-secondary" id="btn-share">分享给朋友</button>
+          <button class="btn-ghost" id="btn-goodnight">晚安</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ====== SCREEN: SETTINGS ====== -->
+    <div id="screen-settings" class="screen">
+      <div class="screen-content">
+        <div class="settings-header">
+          <span class="settings-title">设置</span>
+          <button class="settings-close" id="btn-settings-close">&times;</button>
+        </div>
+        <div class="settings-section">
+          <label class="settings-section-label">入睡姿势</label>
+          <input type="text" id="settings-posture-input" class="text-input" maxlength="20">
+        </div>
+        <div class="step-edit-list" id="step-edit-list"></div>
+        <button class="add-step-btn" id="btn-add-step">+ 添加步骤</button>
+        <button class="restore-default-btn" id="btn-restore-defaults">恢复默认步骤</button>
+      </div>
+    </div>
+
+    <!-- ====== TOAST ====== -->
+    <div id="toast" class="toast hidden"></div>
+  </div>
+
+  <script src="js/state.js"></script>
+  <script src="js/screens.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/routine.js"></script>
+  <script src="js/worry-drop.js"></script>
+  <script src="js/sounds.js"></script>
+  <script src="js/settings.js"></script>
+  <!-- Service Worker disabled during dev; re-enable for production -->
+  <!--
+  <script>
+    if ("serviceWorker" in navigator) {
+      navigator.serviceWorker.register("sw.js");
+    }
+  </script>
+  -->
+</body>
+</html>
